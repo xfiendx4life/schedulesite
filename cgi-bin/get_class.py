@@ -2,7 +2,7 @@
 import requests
 import xml.etree.ElementTree  as ET
 def get_class_list():
-        r = requests.post('http://sgo.volganet.ru/lacc.asp?Function=GetClassListForSchool&SchoolID=1460')
+        r = requests.post('https://sgo.volganet.ru/lacc.asp?Function=GetClassListForSchool&SchoolID=1460')
         root = ET.fromstring(r.text)
         class_list = []
         for child in root[0]:

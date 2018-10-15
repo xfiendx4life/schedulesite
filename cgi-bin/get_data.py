@@ -57,7 +57,7 @@ def get_schedule_for_class(ClassID, day):
     StartDate, EndDate = set_dates(day)
     payload = {"Function":"GetScheduleForClass","ClassID":ClassID,
                "StartDate":StartDate, "EndDate":EndDate}
-    r = requests.post("http://sgo.volganet.ru/lacc.asp", params = payload)
+    r = requests.post("https://sgo.volganet.ru/lacc.asp", params = payload)
     doc = ET.fromstring(r.text)
     week = []
     for child in doc[0]:
