@@ -39,7 +39,7 @@ def check_cache(ClassID, day):
             cache_file.close()
             return d
         else:
-            print('From Cache %s'% ClassID_Date)
+            #print('From Cache %s'% ClassID_Date)
             return json[ClassID_Date]
     except:
         StartDate, EndDate = set_dates(day)
@@ -57,7 +57,7 @@ def get_schedule_for_class(ClassID, day):
     StartDate, EndDate = set_dates(day)
     payload = {"Function":"GetScheduleForClass","ClassID":ClassID,
                "StartDate":StartDate, "EndDate":EndDate}
-    r = requests.post("https://sgo.volganet.ru/lacc.asp", params = payload)
+    r = requests.post("https://sgo.volganet.ru/api/lacc.asp", params = payload)
     doc = ET.fromstring(r.text)
     week = []
     for child in doc[0]:
@@ -68,7 +68,11 @@ def get_schedule_for_class(ClassID, day):
         lessons['End_time'] = child.find('endtime').text
         lessons['Teacher'] = '%s %s %s' %(child.find('tlastname').text,
          child.find('tfirstname').text, child.find('tmidname').text )
-        lessons['Room'] = child.find('roomname').text
+        room_from_query = child.find('roomname').text
+        if room_from_query != None:
+            lessons['Room'] = room_from_query
+        else:
+            lessons['Room'] = '-'
         week.append(lessons)
     return week
 
